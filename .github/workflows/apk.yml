@@ -1,0 +1,39 @@
+# Construye el APK automáticamente en los servidores de GitHub cada vez
+# que se suben cambios. El APK aparece en la pestaña "Actions" → la última
+# ejecución → "Artifacts" → esgrima-ace-apk.
+name: Construir APK
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Librería del código QR (para que funcione sin conexión)
+        run: mkdir -p www/js/vendor && curl -fsSL -o www/js/vendor/qrcode.min.js https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js
+      - name: Instalar Capacitor
+        run: npm install
+      - name: Crear el proyecto Android
+        run: |
+          npx cap add android
+          npx capacitor-assets generate --android --iconBackgroundColor '#FFFFFF' --splashBackgroundColor '#1B5E20' || echo "Iconos por defecto"
+          npx cap sync android
+      - name: Compilar el APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: esgrima-ace-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk

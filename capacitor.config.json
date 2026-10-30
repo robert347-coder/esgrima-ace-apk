@@ -1,0 +1,6 @@
+{
+  "appId": "es.almoradiesgrima.demo",
+  "appName": "Esgrima ACE",
+  "webDir": "www",
+  "android": { "backgroundColor": "#1B5E20" }
+}
