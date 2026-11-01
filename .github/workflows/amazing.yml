@@ -1,0 +1,75 @@
+# Construye las 4 apps de Amazing Fencing y las publica juntas en "Releases".
+name: Amazing Fencing (4 apps)
+
+on:
+  push:
+    branches: [main]
+    paths: ['amazing/**', '.github/workflows/amazing.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [entrena, arbitro, entrenador, competicion]
+    defaults:
+      run:
+        working-directory: amazing/apps/${{ matrix.app }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+      - run: npm install
+      - name: Proyecto Android
+        run: |
+          npx cap add android
+          npx capacitor-assets generate --android --iconBackgroundColor '#13294B' --splashBackgroundColor '#13294B' || echo "Iconos por defecto"
+          npx cap sync android
+      - name: Compilar APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+          cp app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/AF-${{ matrix.app }}.apk"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AF-${{ matrix.app }}
+          path: AF-${{ matrix.app }}.apk
+
+  publicar:
+    needs: apk
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: salida
+          merge-multiple: true
+      - name: Publicar en Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ls -la salida
+          gh release create "amazing-${{ github.run_number }}" salida/*.apk \
+            --title "Amazing Fencing · 4 apps (${{ github.run_number }})" \
+            --notes "AF Entrena, AF Árbitro, AF Entrenador y AF Competición. APK de prueba: se instalan por separado y pueden convivir en el mismo móvil." \
+            --latest=false
+      - name: Guardar también en la rama "apk-amazing"
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan apk-amazing
+          git rm -rf --cached . -q
+          git add -f salida/*.apk
+          git commit -q -m "Amazing Fencing ${{ github.run_number }}"
+          git push -f origin apk-amazing

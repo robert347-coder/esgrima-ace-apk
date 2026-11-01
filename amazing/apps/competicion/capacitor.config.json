@@ -1,0 +1,8 @@
+{
+  "appId": "es.amazingfencing.competicion",
+  "appName": "AF Competición",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#13294B"
+  }
+}

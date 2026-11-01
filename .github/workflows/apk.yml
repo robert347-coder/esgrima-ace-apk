@@ -6,6 +6,7 @@ name: Construir APK
 on:
   push:
     branches: [main]
+    paths-ignore: ['amazing/**', '.github/workflows/amazing.yml']
   workflow_dispatch:
 
 permissions:

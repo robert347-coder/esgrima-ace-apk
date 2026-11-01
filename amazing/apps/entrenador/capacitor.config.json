@@ -1,0 +1,8 @@
+{
+  "appId": "es.amazingfencing.entrenador",
+  "appName": "AF Entrenador",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#13294B"
+  }
+}
