@@ -1,0 +1,21 @@
+NOMBRE DE LA APP (máx. 30): Amazing Fencing: Competición
+
+DESCRIPCIÓN BREVE (máx. 80):
+Poules, orden de asaltos, clasificación y cuadro para competiciones de esgrima
+
+CATEGORÍA: Deportes
+
+DESCRIPCIÓN COMPLETA (máx. 4000):
+Organiza competiciones de esgrima en tu sala o club.
+
+• Poules en serpentín según la clasificación inicial y separación por clubes.
+• Orden de asaltos, clasificación por victorias/asaltos, índice y tocados dados.
+• Cuadro de eliminación directa con exentos.
+• Guía del director técnico: todo lo que hay que preparar y comprobar el día de la competición.
+
+Sin registro y sin anuncios. Los datos de tus competiciones se guardan en tu móvil.
+
+ARCHIVOS GRÁFICOS DE ESTA CARPETA:
+- icono-512.png  → Icono de la aplicación
+- grafico-destacado-1024x500.png → Gráfico de funciones
+- captura-*.png  → Capturas de pantalla del teléfono (1080×1920)

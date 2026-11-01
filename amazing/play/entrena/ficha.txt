@@ -1,0 +1,36 @@
+NOMBRE DE LA APP (máx. 30): Amazing Fencing: Entrena
+
+DESCRIPCIÓN BREVE (máx. 80):
+Plan hasta tu competición, rutinas con y sin pesas y nutrición para esgrima
+
+CATEGORÍA: Deportes
+
+DESCRIPCIÓN COMPLETA (máx. 4000):
+Entrena como un esgrimista de competición: con un plan, con método y comiendo bien.
+
+MI PLAN HASTA LA COMPETICIÓN
+• Pon la fecha de tu próxima competición y la app reparte las semanas en mesociclos: preparación general, específica, precompetitiva y puesta a punto.
+• Cada semana sabes si toca carga, choque o descarga, y qué sesión hacer cada día.
+• Registra tus entrenamientos (minutos y esfuerzo) y comprueba si vas en línea con lo planificado.
+• Marcadores de objetivos: sprint, salto, sentadilla, peso… con su progreso.
+• Recordatorio diario con lo que toca hoy y cómo vas.
+
+RUTINAS CON Y SIN PESAS
+• Programas inspirados en velocistas de 100 y 200 m, boxeadores y karatecas, adaptados a la esgrima.
+• Tres niveles, cuenta atrás con pitidos para series y descansos.
+
+NUTRICIÓN Y SUPLEMENTOS
+• Calorías y macronutrientes según tu objetivo: perder grasa, ganar peso, tonificar o ganar masa muscular.
+• Menú de ejemplo, consejos para el día de competición.
+• Suplementos con evidencia (creatina, proteína, cafeína…), con cantidades, forma de uso y límites.
+
+ADEMÁS
+• Escuelas y técnica, calentamientos, tabatas de piernas y juegos para pasar de Básico a Maestro.
+
+Sin registro, sin anuncios y sin enviar tus datos: todo se guarda en tu móvil.
+Herramienta de formación: no sustituye a un entrenador, médico o dietista-nutricionista.
+
+ARCHIVOS GRÁFICOS DE ESTA CARPETA:
+- icono-512.png  → Icono de la aplicación
+- grafico-destacado-1024x500.png → Gráfico de funciones
+- captura-*.png  → Capturas de pantalla del teléfono (1080×1920)

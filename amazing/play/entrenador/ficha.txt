@@ -1,0 +1,21 @@
+NOMBRE DE LA APP (máx. 30): Amazing Fencing: Entrenador
+
+DESCRIPCIÓN BREVE (máx. 80):
+Prepara tu titulación de entrenador de esgrima: temario y simulacros
+
+CATEGORÍA: Educación
+
+DESCRIPCIÓN COMPLETA (máx. 4000):
+Prepárate para ser técnico de esgrima.
+
+• Temario de los niveles I, II y III de entrenador.
+• Requisitos de cada titulación y qué se exige en cada nivel.
+• Simulacros de examen con tiempo y repaso de los fallos.
+• Referencias de otras escuelas europeas.
+
+Sin registro y sin anuncios. Material de estudio: confirma siempre los requisitos oficiales con tu federación.
+
+ARCHIVOS GRÁFICOS DE ESTA CARPETA:
+- icono-512.png  → Icono de la aplicación
+- grafico-destacado-1024x500.png → Gráfico de funciones
+- captura-*.png  → Capturas de pantalla del teléfono (1080×1920)

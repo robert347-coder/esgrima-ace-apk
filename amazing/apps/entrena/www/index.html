@@ -344,6 +344,14 @@ nav.tabs button[aria-current="page"] { color: var(--ink); border-bottom-color: v
   .af-onda { display: none; }
 }
 
+/* Que nada se salga de la pantalla en móviles pequeños */
+#main { overflow-x: clip; }
+#main .card, #main section, #main .stack > * { min-width: 0; }
+#main h1, #main h2, #main h3 { overflow-wrap: anywhere; }
+#main .row { flex-wrap: wrap; }
+#main .hero h1 { overflow-wrap: normal; hyphens: manual; }
+@media (max-width: 420px) { #main .hero h1 { font-size: clamp(30px, 9.5vw, 40px); } }
+
 /* Pantallas nuevas de AF Entrena (Mi plan, Físico, Nutrición) */
 .ap-sub{margin-top:-4px}
 .ap-reloj{position:sticky;top:calc(env(safe-area-inset-top,0px) + 120px);z-index:5;display:flex;align-items:center;gap:16px;justify-content:space-between;background:var(--navy);color:#fff;border:0}

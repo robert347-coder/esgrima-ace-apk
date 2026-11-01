@@ -1,0 +1,37 @@
+NOMBRE DE LA APP (máx. 30): Amazing Fencing: Peso y Dieta
+
+DESCRIPCIÓN BREVE (máx. 80):
+Dieta con los alimentos que te gustan, calorías, control de peso y suplementos
+
+CATEGORÍA: Salud y bienestar
+
+DESCRIPCIÓN COMPLETA (máx. 4000):
+Controla tu peso comiendo lo que te gusta.
+
+TU MENÚ, CON TUS ALIMENTOS
+• Marca tus favoritos y lo que no te gusta: el menú del día se monta con ellos.
+• Cada alimento con sus gramos y calorías. ¿No te apetece algo? Cámbialo por otro equivalente con un toque.
+• Calculadora de equivalencias entre alimentos.
+
+TUS CALORÍAS SEGÚN TU OBJETIVO
+• Perder grasa, mantener, tonificar, ganar masa muscular o ganar peso, según tu nivel.
+• Proteína, hidratos y grasas recomendados, y agua diaria.
+
+SEGUIMIENTO DEL PESO
+• Gráfica con tu tendencia, fecha estimada para llegar a tu objetivo y aviso si bajas demasiado rápido.
+• Recordatorio diario para pesarte, vasos de agua y racha de días cumplidos.
+
+SUPLEMENTOS CON CABEZA
+• Creatina, proteína, cafeína y más: para qué sirven, cantidades, cómo tomarlos y sus límites.
+
+PENSADA PARA CUIDARTE
+• Menores de 18: sin calorías ni dietas de pérdida de peso.
+• No permite objetivos por debajo de un peso saludable.
+
+Sin registro, sin anuncios y sin enviar tus datos: todo se guarda en tu móvil.
+Información orientativa: no sustituye a un dietista-nutricionista ni a tu médico.
+
+ARCHIVOS GRÁFICOS DE ESTA CARPETA:
+- icono-512.png  → Icono de la aplicación
+- grafico-destacado-1024x500.png → Gráfico de funciones
+- captura-*.png  → Capturas de pantalla del teléfono (1080×1920)

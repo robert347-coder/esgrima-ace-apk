@@ -1,0 +1,28 @@
+NOMBRE DE LA APP (máx. 30): Amazing Fencing: Árbitro
+
+DESCRIPCIÓN BREVE (máx. 80):
+Marcador de esgrima y preguntas del reglamento FIE 2026-27 para árbitros
+
+CATEGORÍA: Deportes
+
+DESCRIPCIÓN COMPLETA (máx. 4000):
+Todo lo que necesita un árbitro de esgrima en el bolsillo.
+
+MARCADOR COMPLETO
+• Florete, espada y sable; poule y eliminación directa.
+• Tiempo, tocados, tarjetas y antijuego según las Reglas Técnicas FIE (edición de agosto de 2026).
+
+GUÍA DEL ÁRBITRO
+• Órdenes oficiales en francés y español, gestos y situaciones habituales.
+
+BANCO DE PREGUNTAS
+• Cientos de preguntas de reglamento, técnica y táctica para practicar.
+• Simulacros de examen y repaso de tus fallos.
+
+Sin registro y sin anuncios. Herramienta de formación: en competición manda el reglamento oficial.
+Incluye preguntas adaptadas del repositorio «q-n-a» de Igor (cy6erskunk), licencia MIT.
+
+ARCHIVOS GRÁFICOS DE ESTA CARPETA:
+- icono-512.png  → Icono de la aplicación
+- grafico-destacado-1024x500.png → Gráfico de funciones
+- captura-*.png  → Capturas de pantalla del teléfono (1080×1920)
