@@ -1,4 +1,8 @@
-# Construye las 4 apps de Amazing Fencing y las publica juntas en "Releases".
+# Construye las 5 apps de Amazing Fencing:
+#  - APK de prueba (debug) para instalar en el móvil
+#  - AAB de release para Google Play (sin firmar, o firmado si existen los
+#    secretos AF_KEYSTORE_B64, AF_KEYSTORE_PASS y AF_KEY_ALIAS)
+# Capacitor 8 · Android 16 (API 36), requisito de Google Play desde el 31-ago-2026.
 name: Amazing Fencing (5 apps)
 
 on:
@@ -24,29 +28,47 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
+      - name: Tipografías dentro de la app (sin conexión)
+        run: python3 ../../fuentes_locales.py www
       - run: npm install
       - name: Proyecto Android
         run: |
           npx cap add android
-          # Permiso de notificaciones (Android 13+) para el recordatorio diario
-          grep -q POST_NOTIFICATIONS android/app/src/main/AndroidManifest.xml || sed -i 's|</manifest>|    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n</manifest>|' android/app/src/main/AndroidManifest.xml
+          M=android/app/src/main/AndroidManifest.xml
+          grep -q POST_NOTIFICATIONS $M || sed -i 's|</manifest>|    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n</manifest>|' $M
+          grep -q 'permission.VIBRATE' $M || sed -i 's|</manifest>|    <uses-permission android:name="android.permission.VIBRATE" />\n</manifest>|' $M
+          # Versión: cada compilación sube el número (Google Play lo exige)
+          sed -i -E "s/versionCode [0-9]+/versionCode ${{ github.run_number }}/; s/versionName \"[^\"]*\"/versionName \"1.${{ github.run_number }}\"/" android/app/build.gradle
+          grep -E "versionCode|versionName|targetSdk|compileSdk" android/app/build.gradle android/variables.gradle || true
           npx capacitor-assets generate --android --iconBackgroundColor '#13294B' --splashBackgroundColor '#13294B' || echo "Iconos por defecto"
           npx cap sync android
-      - name: Compilar APK
+      - name: Compilar APK de prueba y AAB para Google Play
+        env:
+          KS_B64: ${{ secrets.AF_KEYSTORE_B64 }}
+          KS_PASS: ${{ secrets.AF_KEYSTORE_PASS }}
+          KS_ALIAS: ${{ secrets.AF_KEY_ALIAS }}
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          FIRMA=""
+          if [ -n "$KS_B64" ]; then
+            echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/subida.jks"
+            FIRMA="-Pandroid.injected.signing.store.file=$RUNNER_TEMP/subida.jks -Pandroid.injected.signing.store.password=$KS_PASS -Pandroid.injected.signing.key.alias=$KS_ALIAS -Pandroid.injected.signing.key.password=$KS_PASS"
+          fi
+          ./gradlew assembleDebug bundleRelease $FIRMA
           cp app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/AF-${{ matrix.app }}.apk"
+          cp app/build/outputs/bundle/release/app-release.aab "$GITHUB_WORKSPACE/AF-${{ matrix.app }}.aab"
       - uses: actions/upload-artifact@v4
         with:
           name: AF-${{ matrix.app }}
-          path: AF-${{ matrix.app }}.apk
+          path: |
+            AF-${{ matrix.app }}.apk
+            AF-${{ matrix.app }}.aab
 
   publicar:
     needs: apk
@@ -62,9 +84,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           ls -la salida
-          gh release create "amazing-${{ github.run_number }}" salida/*.apk \
+          gh release create "amazing-${{ github.run_number }}" salida/*.apk salida/*.aab \
             --title "Amazing Fencing · 5 apps (${{ github.run_number }})" \
-            --notes "AF Entrena, AF Árbitro, AF Entrenador, AF Competición y AF Peso. APK de prueba: se instalan por separado y pueden convivir en el mismo móvil." \
+            --notes "APK de prueba para instalar en el móvil y AAB para Google Play. Versión 1.${{ github.run_number }} (versionCode ${{ github.run_number }})." \
             --latest=false
       - name: Guardar también en la rama "apk-amazing"
         run: |
@@ -72,6 +94,6 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
           git checkout --orphan apk-amazing
           git rm -rf --cached . -q
-          git add -f salida/*.apk
+          git add -f salida/*.apk salida/*.aab
           git commit -q -m "Amazing Fencing ${{ github.run_number }}"
           git push -f origin apk-amazing

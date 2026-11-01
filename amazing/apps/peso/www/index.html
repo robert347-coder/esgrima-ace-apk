@@ -221,7 +221,129 @@ footer{border-top:1px solid var(--line);padding-block:18px 30px;font-size:13px;c
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:520px){.top{position:static}.brand small{display:none}}
 </style>
+<meta name="theme-color" content="#6E3591">
 <style>
+:root{--acc:#6E3591;--acc-ink:#fff;--acc-soft:color-mix(in srgb, #6E3591 14%, transparent)}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--acc:#C69AE6;--acc-ink:#0A101B;--acc-soft:color-mix(in srgb, #C69AE6 22%, transparent)}}:root[data-theme="dark"]{--acc:#C69AE6;--acc-ink:#0A101B;--acc-soft:color-mix(in srgb, #C69AE6 22%, transparent)}/* =====================================================================
+   CAPA VISUAL COMÚN · Amazing Fencing (las 5 apps)
+   Idea: la pista de esgrima vista como app nativa. Cada app tiene su
+   color (--acc), superficies limpias con sombra suave, barra de
+   navegación inferior en el móvil y movimiento breve y con sentido.
+   El color de cada app se define en el generador (--acc, --acc-ink,
+   --acc-soft) para claro y oscuro.
+   ===================================================================== */
+:root {
+  --sa-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --sa-bot: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --nav-h: 66px;
+  --sombra: 0 1px 2px rgba(15, 27, 45, .05), 0 6px 20px rgba(15, 27, 45, .07);
+  --sombra-alta: 0 2px 6px rgba(15, 27, 45, .08), 0 18px 40px rgba(15, 27, 45, .14);
+  --r: 16px;
+  --hero-a: #0F1F3A;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --sombra: 0 1px 2px rgba(0, 0, 0, .4); --sombra-alta: 0 10px 30px rgba(0, 0, 0, .5); --hero-a: #08111F; } }
+:root[data-theme="dark"] { --sombra: 0 1px 2px rgba(0, 0, 0, .4); --sombra-alta: 0 10px 30px rgba(0, 0, 0, .5); --hero-a: #08111F; }
+
+/* Zonas seguras de Android 15/16 (borde a borde) */
+body::before { height: var(--sa-top); }
+.top { top: var(--sa-top); box-shadow: 0 1px 0 var(--line); border-bottom: 0; }
+.top.af-sombra { box-shadow: 0 6px 18px rgba(15, 27, 45, .08); }
+.brand svg rect { fill: var(--acc); }
+.brand b span { color: var(--acc); }
+
+/* Superficies */
+.card, .tile, .routine { border-color: transparent; box-shadow: var(--sombra); border-radius: var(--r); }
+.card { padding: 20px; }
+.hero { background: radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--acc) 85%, transparent) 0%, transparent 55%), var(--hero-a); border-radius: 22px; box-shadow: var(--sombra-alta); }
+.hero h1 span { color: color-mix(in srgb, var(--acc) 35%, #fff); }
+.tile { border-top: 0; position: relative; overflow: hidden; padding: 18px 18px 18px 22px; transition: transform .15s ease, box-shadow .15s ease; }
+.tile::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--c, var(--acc)); }
+.tile:hover { box-shadow: var(--sombra-alta); transform: translateY(-1px); }
+
+/* Botones y chips */
+.btn { border-radius: 12px; min-height: 44px; transition: transform .1s ease, filter .15s ease, background .15s ease; position: relative; overflow: hidden; }
+.btn.red { background: var(--acc); border-color: var(--acc); color: var(--acc-ink); }
+.btn.red:hover { filter: brightness(1.08); }
+.chip { min-height: 38px; transition: background .15s ease, color .15s ease; }
+.chip[aria-pressed="true"] { background: var(--acc); border-color: var(--acc); color: var(--acc-ink); }
+.btn:active, .chip:active, .tile:active, .routine:active, nav.tabs button:active { transform: scale(.97); }
+.meter i { background: var(--acc); }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--acc); outline-offset: 1px; }
+:focus-visible { outline-color: var(--acc); }
+
+/* Onda al pulsar */
+.af-onda { position: absolute; border-radius: 50%; pointer-events: none; background: currentColor; opacity: .18; transform: scale(0); animation: afOnda .5s ease-out forwards; }
+@keyframes afOnda { to { transform: scale(2.6); opacity: 0; } }
+
+/* Pestañas con icono (escritorio) */
+nav.tabs button { display: inline-flex; align-items: center; gap: 7px; border-radius: 10px 10px 0 0; }
+nav.tabs button svg { width: 18px; height: 18px; flex: none; }
+nav.tabs button[aria-current="page"] { color: var(--ink); border-bottom-color: var(--acc); }
+
+/* Entrada suave de cada pantalla */
+#main.af-entra > * { animation: afEntra .32s cubic-bezier(.2, .8, .2, 1) both; }
+#main.af-entra > * > *:nth-child(2) { animation-delay: .03s; }
+@keyframes afEntra { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Móvil: barra de navegación inferior ---------- */
+@media (max-width: 820px) {
+  .top .wrap:last-child { padding: 0; }
+  nav.tabs {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr);
+    background: var(--surface); border-top: 0; box-shadow: 0 -1px 0 var(--line), 0 -8px 24px rgba(15, 27, 45, .06);
+    padding: 6px max(6px, env(safe-area-inset-right, 0px)) calc(6px + var(--sa-bot)) max(6px, env(safe-area-inset-left, 0px)); overflow: visible;
+  }
+  nav.tabs button {
+    flex-direction: column; justify-content: center; gap: 3px; min-height: calc(var(--nav-h) - 12px); padding: 4px 2px; border: 0; border-radius: 14px;
+    font-family: var(--f-body); font-size: 11.5px; font-weight: 700; text-transform: none; letter-spacing: 0; color: var(--muted); min-width: 0;
+  }
+  nav.tabs button span.af-et { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  nav.tabs button svg { width: 24px; height: 24px; padding: 3px 14px; box-sizing: content-box; border-radius: 999px; transition: background .2s ease; }
+  nav.tabs button[aria-current="page"] { color: var(--ink); border: 0; }
+  nav.tabs button[aria-current="page"] svg { background: var(--acc-soft); color: var(--acc); }
+  nav.tabs button.af-oculto { display: none; }
+  main { padding-bottom: calc(var(--nav-h) + var(--sa-bot) + 28px); }
+  footer.wrap { padding-bottom: calc(var(--nav-h) + var(--sa-bot) + 20px); }
+  .toast { bottom: calc(var(--nav-h) + var(--sa-bot) + 14px) !important; }
+  .gbtn { bottom: calc(var(--nav-h) + var(--sa-bot) + 12px) !important; }
+  .gpanel { bottom: calc(var(--nav-h) + var(--sa-bot) + 96px) !important; }
+  .brand b { font-size: 22px; }
+}
+
+/* Hoja «Más» */
+.af-hoja-fondo { position: fixed; inset: 0; z-index: 60; background: rgba(8, 17, 31, .45); animation: afFundido .2s ease both; }
+.af-hoja { position: fixed; left: 0; right: 0; bottom: 0; z-index: 61; background: var(--surface); border-radius: 22px 22px 0 0; box-shadow: var(--sombra-alta);
+  padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(18px + var(--sa-bot)) max(16px, env(safe-area-inset-left, 0px)); animation: afSube .28s cubic-bezier(.2, .8, .2, 1) both; }
+.af-hoja::before { content: ""; display: block; width: 40px; height: 5px; border-radius: 3px; background: var(--line); margin: 0 auto 12px; }
+.af-hoja h2 { font-size: 22px; margin: 0 4px 10px; }
+.af-hoja-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.af-hoja-grid button { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 6px; border: 0; border-radius: 14px; background: var(--sunk); color: var(--ink); font-weight: 700; font-size: 13px; }
+.af-hoja-grid button[aria-current="page"] { background: var(--acc-soft); color: var(--acc); }
+.af-hoja-grid svg { width: 26px; height: 26px; }
+@keyframes afSube { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes afFundido { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- Bienvenida guiada ---------- */
+.af-intro { position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column; color: #fff;
+  background: radial-gradient(110% 80% at 50% 0%, color-mix(in srgb, var(--acc) 90%, #000) 0%, var(--hero-a) 70%);
+  padding: calc(var(--sa-top) + 20px) max(20px, env(safe-area-inset-right, 0px)) calc(var(--sa-bot) + 20px) max(20px, env(safe-area-inset-left, 0px)); animation: afFundido .3s ease both; }
+.af-intro-saltar { align-self: flex-end; background: none; border: 0; color: rgba(255, 255, 255, .8); font-weight: 700; padding: 8px; }
+.af-intro-pasos { flex: 1; display: grid; place-items: center; text-align: center; overflow: hidden; touch-action: pan-y; }
+.af-intro-paso { max-width: 420px; display: grid; gap: 16px; justify-items: center; animation: afEntra .35s cubic-bezier(.2, .8, .2, 1) both; }
+.af-intro-ico { width: 132px; height: 132px; border-radius: 36px; display: grid; place-items: center; background: rgba(255, 255, 255, .12); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18); }
+.af-intro-ico svg { width: 64px; height: 64px; }
+.af-intro h2 { font-size: clamp(34px, 9vw, 46px); text-transform: uppercase; line-height: .95; }
+.af-intro p { margin: 0; font-size: 17px; color: rgba(255, 255, 255, .86); }
+.af-intro-pie { display: grid; gap: 16px; justify-items: center; }
+.af-puntos { display: flex; gap: 8px; }
+.af-puntos i { width: 8px; height: 8px; border-radius: 4px; background: rgba(255, 255, 255, .35); transition: width .25s ease, background .25s ease; }
+.af-puntos i.act { width: 26px; background: #fff; }
+.af-intro .btn { width: min(420px, 100%); background: #fff; color: var(--hero-a); border-color: #fff; font-size: 17px; min-height: 52px; }
+
+@media (prefers-reduced-motion: reduce) {
+  #main.af-entra > *, .af-hoja, .af-hoja-fondo, .af-intro, .af-intro-paso { animation: none !important; }
+  .af-onda { display: none; }
+}
+
 /* Pantallas nuevas de AF Entrena (Mi plan, Físico, Nutrición) */
 .ap-sub{margin-top:-4px}
 .ap-reloj{position:sticky;top:calc(env(safe-area-inset-top,0px) + 120px);z-index:5;display:flex;align-items:center;gap:16px;justify-content:space-between;background:var(--navy);color:#fff;border:0}
@@ -2564,6 +2686,7 @@ renderStats(); go("home");
 </script>
 
 <script>
+window.AF_UI={"id": "peso", "nombre": "AF Peso", "intro": [["alimentos", "Come lo que te gusta", "Marca tus alimentos favoritos y los que no, y la app monta tu menú con ellos."], ["menu", "Cantidades y calorías", "Cada comida con sus gramos y calorías. Si no te apetece algo, cámbialo por otro equivalente."], ["peso", "Sigue tu progreso", "Tu peso, tu tendencia y un aviso diario. Sin prisas: lo saludable es lo que dura."]]};
 /* =====================================================================
    SUPLEMENTOS · módulo compartido (AF Entrena y AF Peso)
    Basado en las posiciones de la ISSN, el marco del Australian Institute
@@ -3026,6 +3149,152 @@ renderStats(); go("home");
   if (P.aviso.activo) setTimeout(programar, 1500);
   // La app original pinta su inicio antes de cargar este módulo: lo sustituimos por «Hoy»
   if (window.AF_go) window.AF_go('home');
+})();
+
+/* =====================================================================
+   CAPA INTERACTIVA COMÚN · Amazing Fencing (las 5 apps)
+   - Iconos en las pestañas y barra inferior en el móvil (máx. 5 huecos;
+     el resto va a una hoja «Más»).
+   - Entrada animada de cada pantalla, onda y vibración suave al pulsar.
+   - Bienvenida guiada la primera vez (deslizable).
+   Configuración por app en window.AF_UI = { id, nombre, intro: [[icono, título, texto], ...] }
+   ===================================================================== */
+(function () {
+  'use strict';
+  var CFG = window.AF_UI || { id: 'app', intro: [] };
+  var S = function (p) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + p + '</svg>'; };
+  var ICO = {
+    home: S('<path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/>'),
+    learn: S('<path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 21.5V4.5M8 7h8M8 11h6"/>'),
+    warm: S('<path d="M12 22a7 7 0 0 0 7-7c0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-2 2-5 5-5 8a7 7 0 0 0 7 7z"/>'),
+    tabata: S('<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/>'),
+    games: S('<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>'),
+    bank: S('<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/>'),
+    coach: S('<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/>'),
+    comp: S('<path d="M3 5h5v4H3zM3 15h5v4H3zM8 7h3v10H8M11 12h4M15 9h6v6h-6z"/>'),
+    dt: S('<path d="M5 21V4h12l-2 4 2 4H5"/>'),
+    ref: S('<path d="M3 12h11a4 4 0 1 1-4 4"/><path d="M14 8h7v4M3 12V8h6"/><circle cx="10" cy="16" r="1"/>'),
+    plan: S('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8 15l2.5 2.5L16 13"/>'),
+    fisico: S('<path d="M3 10v4M6 7v10M18 7v10M21 10v4M6 12h12"/>'),
+    dieta: S('<path d="M12 7c-1-3-4-4-6-3 0 3 2 5 6 3z"/><path d="M12 7c3-2 8-1 8 5s-4 10-8 8c-4 2-8-2-8-8 0-4 3-6 8-5z"/>'),
+    menu: S('<path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 0-3 2-3 5s1 4 3 4v9"/>'),
+    alimentos: S('<path d="M20.8 6.6a5 5 0 0 0-8.8-2.4 5 5 0 0 0-8.8 2.4C2 11 7 15.5 12 20c5-4.5 10-9 8.8-13.4z"/>'),
+    peso: S('<rect x="3" y="4" width="18" height="17" rx="4"/><path d="M8 9a6 6 0 0 1 8 0l-3 3"/>'),
+    suple: S('<rect x="3" y="9" width="18" height="7" rx="3.5" transform="rotate(-35 12 12.5)"/><path d="M9 8l5 8"/>'),
+    perfil: S('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),
+    mas: S('<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>'),
+    sable: S('<path d="M4 20L18 6M15 4l5 5M6 15l3 3"/>'),
+    reloj: S('<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/>')
+  };
+  window.AF_ICO = ICO;
+  var movil = function () { return window.matchMedia('(max-width: 820px)').matches; };
+
+  /* ---------- Pestañas: iconos, barra inferior y «Más» ---------- */
+  var tabs = document.getElementById('tabs'), obs = null;
+  var OPC = { childList: true, subtree: true, attributes: true, attributeFilter: ['aria-current'] };
+  function arreglarPestanas() {
+    if (!tabs) return;
+    if (obs) obs.disconnect(); // nuestros propios cambios no deben volver a disparar el arreglo
+    var bs = Array.prototype.slice.call(tabs.querySelectorAll('button[data-v]'));
+    bs.forEach(function (b) {
+      if (!b.querySelector('svg')) { var t = b.textContent; b.innerHTML = (ICO[b.dataset.v] || ICO.home) + '<span class="af-et">' + t + '</span>'; b.setAttribute('aria-label', t); }
+      b.classList.remove('af-oculto');
+    });
+    var mas = tabs.querySelector('.af-mas'); if (mas) mas.remove();
+    if (movil() && bs.length > 5) {
+      var visibles = 4, actual = bs.findIndex(function (b) { return b.getAttribute('aria-current') === 'page'; });
+      bs.forEach(function (b, i) { if (i >= visibles) b.classList.add('af-oculto'); });
+      var m = document.createElement('button');
+      m.type = 'button'; m.className = 'af-mas'; m.innerHTML = ICO.mas + '<span class="af-et">Más</span>'; m.setAttribute('aria-label', 'Más secciones');
+      if (actual >= visibles) { m.setAttribute('aria-current', 'page'); m.innerHTML = (ICO[bs[actual].dataset.v] || ICO.mas) + '<span class="af-et">' + bs[actual].querySelector('.af-et').textContent + '</span>'; }
+      m.addEventListener('click', function () { abrirHoja(bs.slice(visibles)); });
+      tabs.appendChild(m);
+    }
+    if (obs) obs.observe(tabs, OPC);
+  }
+  function abrirHoja(lista) {
+    cerrarHoja();
+    var f = document.createElement('div'); f.className = 'af-hoja-fondo';
+    var h = document.createElement('div'); h.className = 'af-hoja'; h.setAttribute('role', 'dialog'); h.setAttribute('aria-label', 'Más secciones');
+    h.innerHTML = '<h2>Más secciones</h2><div class="af-hoja-grid">' + lista.map(function (b) {
+      return '<button data-ir="' + b.dataset.v + '"' + (b.getAttribute('aria-current') === 'page' ? ' aria-current="page"' : '') + '>' + (ICO[b.dataset.v] || ICO.home) + b.querySelector('.af-et').textContent + '</button>';
+    }).join('') + '</div>';
+    f.addEventListener('click', cerrarHoja);
+    h.addEventListener('click', function (e) { var x = e.target.closest('[data-ir]'); if (!x) return; cerrarHoja(); var o = tabs.querySelector('button[data-v="' + x.dataset.ir + '"]'); if (o) o.click(); });
+    document.body.appendChild(f); document.body.appendChild(h);
+    var p = h.querySelector('button'); if (p) p.focus();
+  }
+  function cerrarHoja() { document.querySelectorAll('.af-hoja,.af-hoja-fondo').forEach(function (x) { x.remove(); }); }
+  if (tabs) {
+    obs = new MutationObserver(function (recs) {
+      // la onda al pulsar no cuenta como cambio de pestañas
+      var real = recs.some(function (r) {
+        if (r.type === 'attributes') return true;
+        var nodos = Array.prototype.slice.call(r.addedNodes).concat(Array.prototype.slice.call(r.removedNodes));
+        return nodos.some(function (n) { return !(n.classList && n.classList.contains('af-onda')); });
+      });
+      if (real) arreglarPestanas();
+    });
+    window.matchMedia('(max-width: 820px)').addEventListener('change', arreglarPestanas);
+    arreglarPestanas();
+  }
+
+  /* ---------- Entrada animada de cada pantalla ---------- */
+  var main = document.getElementById('main'), ultimo = '';
+  if (main) new MutationObserver(function () {
+    var vista = (tabs && tabs.querySelector('[aria-current="page"]') || {}).dataset;
+    var clave = vista ? vista.v : '';
+    if (clave !== ultimo) { ultimo = clave; main.classList.remove('af-entra'); void main.offsetWidth; main.classList.add('af-entra'); }
+  }).observe(main, { childList: true });
+
+  /* ---------- Sombra de la cabecera al desplazarse ---------- */
+  var top = document.querySelector('.top');
+  window.addEventListener('scroll', function () { if (top) top.classList.toggle('af-sombra', window.scrollY > 6); }, { passive: true });
+
+  /* ---------- Onda y vibración al pulsar ---------- */
+  var ultimaVib = 0;
+  function vibrar() {
+    var t = Date.now(); if (t - ultimaVib < 60) return; ultimaVib = t;
+    try { var H = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Haptics; if (H) { H.impact({ style: 'LIGHT' }); return; } } catch (e) {}
+    try { if (navigator.vibrate) navigator.vibrate(8); } catch (e) {}
+  }
+  document.addEventListener('pointerdown', function (e) {
+    var b = e.target.closest('.btn, .tile, .routine, .tabs button, .af-hoja-grid button'); if (!b) return;
+    vibrar();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var r = b.getBoundingClientRect(), d = Math.max(r.width, r.height), o = document.createElement('span');
+    o.className = 'af-onda'; o.style.width = o.style.height = d + 'px'; o.style.left = (e.clientX - r.left - d / 2) + 'px'; o.style.top = (e.clientY - r.top - d / 2) + 'px';
+    if (getComputedStyle(b).position === 'static') b.style.position = 'relative';
+    b.style.overflow = 'hidden'; b.appendChild(o); setTimeout(function () { o.remove(); }, 520);
+  }, { passive: true });
+
+  /* ---------- Bienvenida guiada (solo la primera vez) ---------- */
+  var CLAVE = 'af-ui-intro-' + CFG.id;
+  function yaVista() { try { return localStorage.getItem(CLAVE) === '1'; } catch (e) { return true; } }
+  function marcarVista() { try { localStorage.setItem(CLAVE, '1'); } catch (e) {} }
+  function intro() {
+    if (!CFG.intro || !CFG.intro.length || yaVista()) return;
+    var paso = 0, el = document.createElement('div');
+    el.className = 'af-intro'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Bienvenida');
+    function pintar() {
+      var p = CFG.intro[paso], ult = paso === CFG.intro.length - 1;
+      el.innerHTML = '<button class="af-intro-saltar" data-i="fin">Saltar</button>' +
+        '<div class="af-intro-pasos"><div class="af-intro-paso"><div class="af-intro-ico">' + (ICO[p[0]] || ICO.home) + '</div><h2>' + p[1] + '</h2><p>' + p[2] + '</p></div></div>' +
+        '<div class="af-intro-pie"><div class="af-puntos">' + CFG.intro.map(function (_, i) { return '<i class="' + (i === paso ? 'act' : '') + '"></i>'; }).join('') + '</div>' +
+        '<button class="btn" data-i="' + (ult ? 'fin' : 'sig') + '">' + (ult ? 'Empezar' : 'Siguiente') + '</button></div>';
+    }
+    function cerrar() { marcarVista(); el.style.transition = 'opacity .25s'; el.style.opacity = '0'; setTimeout(function () { el.remove(); }, 260); }
+    el.addEventListener('click', function (e) { var b = e.target.closest('[data-i]'); if (!b) return; vibrar(); if (b.dataset.i === 'fin') cerrar(); else { paso++; pintar(); } });
+    var x0 = null;
+    el.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    el.addEventListener('touchend', function (e) {
+      if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (dx < -50 && paso < CFG.intro.length - 1) { paso++; pintar(); } else if (dx > 50 && paso > 0) { paso--; pintar(); }
+    });
+    pintar(); document.body.appendChild(el);
+  }
+  // La guía «Bob» de la app original aparece la primera vez: esperamos a que acabe la bienvenida
+  intro();
 })();
 
 </script>

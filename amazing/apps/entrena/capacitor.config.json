@@ -4,5 +4,14 @@
   "webDir": "www",
   "android": {
     "backgroundColor": "#13294B"
+  },
+  "plugins": {
+    "SystemBars": {
+      "insetsHandling": "css",
+      "style": "DEFAULT"
+    },
+    "LocalNotifications": {
+      "iconColor": "#1D4E89"
+    }
   }
 }
