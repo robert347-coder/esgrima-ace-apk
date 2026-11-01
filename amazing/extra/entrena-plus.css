@@ -1,0 +1,32 @@
+/* Pantallas nuevas de AF Entrena (Mi plan, Físico, Nutrición) */
+.ap-sub{margin-top:-4px}
+.ap-reloj{position:sticky;top:calc(env(safe-area-inset-top,0px) + 120px);z-index:5;display:flex;align-items:center;gap:16px;justify-content:space-between;background:var(--navy);color:#fff;border:0}
+.ap-reloj .eyebrow{color:#9DB6E0}
+.ap-cifra{font-family:var(--f-display);font-weight:800;font-size:44px;line-height:1;font-variant-numeric:tabular-nums}
+.ap-cuenta{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+.ap-cuenta .ap-cifra{color:var(--red)}
+@media (max-width:520px){.ap-cuenta{grid-template-columns:1fr}}
+.ap-dia{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.ap-dia:last-child{border-bottom:0}
+.ap-dia.hoy{background:var(--gold-soft);margin:0 -12px;padding:8px 12px;border-radius:8px}
+.ap-dia b{text-transform:capitalize}
+.ap-dia .btn{padding:4px 12px;font-size:14px}
+.ap-macro{display:flex;height:42px;border-radius:10px;overflow:hidden;gap:2px}
+.ap-macro div{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;min-width:0;padding:0 4px}
+.ap-macro span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ap-hoy{font-size:12px;font-weight:700;color:var(--red)}
+.ap-noti{display:flex;flex-direction:column;gap:2px;background:var(--sunk);border-radius:14px;padding:12px 14px;border-left:4px solid var(--red);font-size:14px}
+.ap-menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px}
+.ap-comida{background:var(--sunk);border-radius:var(--r);padding:12px 14px}
+.ap-comida h4{font-size:19px;margin-bottom:6px}
+.ap-comida ul{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:14px}
+.ap-comida li{display:flex;justify-content:space-between;gap:10px}
+.ap-comida li b{white-space:nowrap;font-variant-numeric:tabular-nums}
+.ap-lista{margin:0;padding-left:20px;display:grid;gap:6px}
+.ap-radio{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.ap-radio input{accent-color:var(--red)}
+.ap-radio:has(input:checked){background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.ap-rut .routine{padding:12px 14px}
+.ap-rut .routine h3{font-size:20px}
+
+.ap-reloj .btn{background:#fff;color:#13294B;border-color:#fff}

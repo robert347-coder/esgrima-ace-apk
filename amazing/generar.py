@@ -12,9 +12,10 @@ FUENTE = os.path.join(BASE, 'fuente', 'index.html')
 
 APPS = [
     dict(id='entrena', nombre='AF Entrena', sub='Técnica · Calentamiento · Juegos', color='#1D4E89', letra='E',
-         vistas=[('home', 'Inicio'), ('learn', 'Aprender'), ('warm', 'Calentar'), ('tabata', 'Tabata'), ('games', 'Juegos')],
+         vistas=[('home', 'Inicio'), ('plan', 'Mi plan'), ('fisico', 'Físico'), ('dieta', 'Nutrición'), ('learn', 'Aprender'), ('warm', 'Calentar'), ('tabata', 'Tabata'), ('games', 'Juegos')],
+         js=['suplementos', 'entrena-plus'], css=['entrena-plus'], notificaciones=True,
          titulo='Entrena <span>y</span> aprende',
-         texto='Escuelas cubana, estadounidense, italiana, francesa y española; calentamientos, tabatas de piernas y juegos para pasar de Básico a Maestro.',
+         texto='Tu plan hasta la competición con ciclos y objetivos, rutinas con y sin pesas de velocistas, boxeadores y karatecas, nutrición según tu objetivo, y la técnica de las grandes escuelas.',
          videos=True),
     dict(id='arbitro', nombre='AF Árbitro', sub='Marcador · Reglamento FIE', color='#D02B3F', letra='A',
          vistas=[('home', 'Inicio'), ('ref', 'Arbitrar'), ('bank', 'Preguntas')],
@@ -26,6 +27,12 @@ APPS = [
          titulo='Fórmate <span>como técnico</span>',
          texto='Temario oficial de los niveles I, II y III, requisitos de cada titulación y simulacros de examen con tiempo.',
          videos=False),
+    dict(id='peso', nombre='AF Peso', sub='Dieta · Peso · Suplementos', color='#7A3E9D', letra='P',
+         vistas=[('home', 'Hoy'), ('menu', 'Mi dieta'), ('alimentos', 'Alimentos'), ('peso', 'Mi peso'), ('suple', 'Suplementos'), ('perfil', 'Mis datos')],
+         titulo='Come lo que <span>te gusta</span>',
+         texto='Calorías, cantidades y alternativas para cada comida.',
+         pie='AF Peso orienta, no sustituye a un dietista-nutricionista ni a tu médico. Calorías calculadas con la ecuación de Mifflin-St Jeor; suplementos según la ISSN, el Australian Institute of Sport y los límites de la EFSA. Si la comida o el peso te generan ansiedad, pide ayuda profesional.',
+         js=['suplementos', 'af-peso'], css=['entrena-plus', 'af-peso'], notificaciones=True, videos=False),
     dict(id='competicion', nombre='AF Competición', sub='Poules · Cuadro · Dirección técnica', color='#0E7C7B', letra='C',
          vistas=[('home', 'Inicio'), ('comp', 'Competición'), ('dt', 'Director técnico')],
          titulo='Organiza <span>tu competición</span>',
@@ -56,6 +63,20 @@ def generar_html(app, src):
                    'function afPodar(){ var ok={}; VIEWS.forEach(function(x){ok[x[0]]=1;}); '
                    'document.querySelectorAll("[data-go]").forEach(function(b){ if(!ok[b.dataset.go]) b.remove(); }); }\n'
                    'function bindGo(root){')
+    # 3b) Pantallas añadidas (Mi plan, Físico, Nutrición): se enganchan con window.AF_EXTRA
+    s = reemplazar(s, '({home:home,', 'if(window.AF_EXTRA&&window.AF_EXTRA[v]){ window.AF_EXTRA[v](o||{}); afPodar(); return; } ({home:home,')
+    s = reemplazar(s, 'function afPodar(){', 'window.AF_go=function(v,o){ go(v,o); };\nfunction afPodar(){')
+    if app['id'] == 'entrena':
+        s = reemplazar(s, 'tile("learn",', 'tile("plan","Mi plan","Ciclos hasta tu competición, objetivos y aviso diario","#13294B")+'
+                       'tile("fisico","Físico","Rutinas con y sin pesas: velocistas, boxeo y karate","#D02B3F")+'
+                       'tile("dieta","Nutrición","Tu dieta según objetivo y nivel","#11934A")+tile("learn",')
+    if app.get('js'):
+        css = '\n'.join(open(os.path.join(BASE, 'extra', c + '.css'), encoding='utf-8').read() for c in app.get('css', []))
+        js = '\n'.join(open(os.path.join(BASE, 'extra', j + '.js'), encoding='utf-8').read() for j in app['js'])
+        s = s.replace('</head>', '<style>\n' + css + '\n</style>\n</head>', 1)
+        s = s.replace('</body>', '<script>\n' + js + '\n</script>\n</body>', 1)
+    if app.get('pie'):
+        s = re.sub(r'(<footer class="wrap">).*?(</footer>)', lambda m: m.group(1) + app['pie'] + m.group(2), s, count=1, flags=re.S)
     # 4) Portada, cabecera y título propios
     s = reemplazar(s, '<h1>Entrena, aprende<br>y <span>arbitra</span></h1>', '<h1>' + app['titulo'] + '</h1>')
     s = re.sub(r'<p>Escuelas cubana, estadounidense.*?arbitraje completo\.</p>', '<p>' + app['texto'] + '</p>', s, count=1)
@@ -109,7 +130,8 @@ def main():
                    'android': {'backgroundColor': '#13294B'}},
                   open(os.path.join(dest, 'capacitor.config.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
         json.dump({'name': 'amazing-fencing-' + app['id'], 'version': '1.0.0', 'private': True,
-                   'dependencies': {'@capacitor/android': '6.1.2', '@capacitor/core': '6.1.2', '@capacitor/app': '6.0.1'},
+                   'dependencies': dict({'@capacitor/android': '6.1.2', '@capacitor/core': '6.1.2', '@capacitor/app': '6.0.1'},
+                                        **({'@capacitor/local-notifications': '^6.1.0'} if app.get('notificaciones') else {})),
                    'devDependencies': {'@capacitor/cli': '6.1.2', '@capacitor/assets': '3.0.5'}},
                   open(os.path.join(dest, 'package.json'), 'w', encoding='utf-8'), indent=2)
         for n in ('icon-only.png', 'icon-foreground.png'):

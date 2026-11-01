@@ -1,0 +1,12 @@
+/* AF Peso */
+#stats, .gbtn, .gpanel { display: none !important; }
+.ap-vasos { display: flex; flex-wrap: wrap; gap: 6px; }
+.ap-vasos span { width: 22px; height: 30px; border: 2px solid var(--navy); border-top-width: 0; border-radius: 0 0 6px 6px; background: transparent; }
+.ap-vasos span.lleno { background: linear-gradient(to top, #3B82C4 75%, transparent 75%); }
+.pv-comida ul { gap: 8px; }
+.pv-comida li { display: grid; grid-template-columns: 1fr auto 36px; align-items: center; gap: 8px; }
+.pv-comida li b { text-align: right; }
+.pv-cambiar { width: 34px; height: 34px; padding: 0; border-radius: 50%; font-size: 17px; line-height: 1; }
+.pv-gusto small { color: var(--muted); font-weight: 400; }
+.pv-gusto.si { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+.pv-gusto.no { background: var(--red-soft); border-color: var(--red); color: var(--red); text-decoration: line-through; }

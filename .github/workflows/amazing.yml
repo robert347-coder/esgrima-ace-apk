@@ -1,5 +1,5 @@
 # Construye las 4 apps de Amazing Fencing y las publica juntas en "Releases".
-name: Amazing Fencing (4 apps)
+name: Amazing Fencing (5 apps)
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [entrena, arbitro, entrenador, competicion]
+        app: [entrena, arbitro, entrenador, competicion, peso]
     defaults:
       run:
         working-directory: amazing/apps/${{ matrix.app }}
@@ -33,6 +33,8 @@ jobs:
       - name: Proyecto Android
         run: |
           npx cap add android
+          # Permiso de notificaciones (Android 13+) para el recordatorio diario
+          grep -q POST_NOTIFICATIONS android/app/src/main/AndroidManifest.xml || sed -i 's|</manifest>|    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n</manifest>|' android/app/src/main/AndroidManifest.xml
           npx capacitor-assets generate --android --iconBackgroundColor '#13294B' --splashBackgroundColor '#13294B' || echo "Iconos por defecto"
           npx cap sync android
       - name: Compilar APK
@@ -61,8 +63,8 @@ jobs:
         run: |
           ls -la salida
           gh release create "amazing-${{ github.run_number }}" salida/*.apk \
-            --title "Amazing Fencing · 4 apps (${{ github.run_number }})" \
-            --notes "AF Entrena, AF Árbitro, AF Entrenador y AF Competición. APK de prueba: se instalan por separado y pueden convivir en el mismo móvil." \
+            --title "Amazing Fencing · 5 apps (${{ github.run_number }})" \
+            --notes "AF Entrena, AF Árbitro, AF Entrenador, AF Competición y AF Peso. APK de prueba: se instalan por separado y pueden convivir en el mismo móvil." \
             --latest=false
       - name: Guardar también en la rama "apk-amazing"
         run: |

@@ -1451,7 +1451,8 @@ function renderTabs(){ document.getElementById("tabs").innerHTML=VIEWS.map(funct
 document.getElementById("tabs").addEventListener("click",function(e){ var b=e.target.closest("[data-v]"); if(b) go(b.dataset.v); });
 function renderStats(){ var r=rank(); document.getElementById("stats").innerHTML='<span class="stat">'+r[1]+'</span><span class="stat"><b>'+S.xp.toLocaleString("es-ES")+'</b> puntos</span>'; }
 var cleanup=null;
-function go(v,o){ if(!VIEWS.some(function(x){return x[0]===v;})){ v="home"; o={}; }  if(cleanup){ cleanup(); cleanup=null; } view=v; renderTabs(); window.scrollTo(0,0); ({home:home,learn:learn,warm:warm,tabata:tabata,games:games,bank:bankView,coach:coachView,comp:compView,dt:dtView,ref:ref})[v](o||{}); afPodar(); }
+function go(v,o){ if(!VIEWS.some(function(x){return x[0]===v;})){ v="home"; o={}; }  if(cleanup){ cleanup(); cleanup=null; } view=v; renderTabs(); window.scrollTo(0,0); if(window.AF_EXTRA&&window.AF_EXTRA[v]){ window.AF_EXTRA[v](o||{}); afPodar(); return; } ({home:home,learn:learn,warm:warm,tabata:tabata,games:games,bank:bankView,coach:coachView,comp:compView,dt:dtView,ref:ref})[v](o||{}); afPodar(); }
+window.AF_go=function(v,o){ go(v,o); };
 function afPodar(){ var ok={}; VIEWS.forEach(function(x){ok[x[0]]=1;}); document.querySelectorAll("[data-go]").forEach(function(b){ if(!ok[b.dataset.go]) b.remove(); }); }
 function bindGo(root){ (root||$main).querySelectorAll("[data-go]").forEach(function(b){ b.onclick=function(){ go(b.dataset.go, b.dataset.sub?{sub:b.dataset.sub}:{}); }; }); }
 

@@ -1,0 +1,8 @@
+{
+  "appId": "es.amazingfencing.peso",
+  "appName": "AF Peso",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#13294B"
+  }
+}
